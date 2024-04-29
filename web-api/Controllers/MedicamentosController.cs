@@ -51,7 +51,6 @@ namespace web_api.Controllers
 
 
 
-
         // POST: api/Medicamentos
         [HttpPost]
         public IHttpActionResult Post(Models.Medicamento medicamento)
@@ -67,13 +66,26 @@ namespace web_api.Controllers
 
 
         // PUT: api/Medicamentos/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, Models.Medicamento medicamento)
         {
+
+            if (id != medicamento.Id)
+                return BadRequest("O id da requisição não coincide com o id do medicamento.");
+
+            if (!this.repoMedicamento.Update(medicamento))
+                return NotFound();
+
+            return Ok(medicamento);
         }
 
         // DELETE: api/Medicamentos/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+
+            if (!this.repoMedicamento.Delete(id))
+                return NotFound();
+
+            return Ok();
         }
     }
 }

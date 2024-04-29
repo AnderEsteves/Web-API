@@ -185,6 +185,57 @@ namespace web_api.Repositories.SQLServer
             }
             return medicamento.Id > 0;
         }
+
+
+        public bool Update(Models.Medicamento medicamento)
+        {
+
+            int linhasAfetadas = 0;
+
+            using (this.conn) {
+                
+                this.conn.Open();
+
+                using (this.cmd)
+                {
+                    cmd.CommandText = "update medicamento set nome = @nome, datafabricacao = @datafabricacao, datavencimento = @datavencimento where id = @id;";
+                    cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int)).Value = medicamento.Id;
+                    cmd.Parameters.Add(new SqlParameter("@nome", System.Data.SqlDbType.VarChar)).Value = medicamento.Nome;
+                    cmd.Parameters.Add(new SqlParameter("@datafabricacao", System.Data.SqlDbType.Date)).Value = medicamento.Datafabricacao;
+
+                    if (medicamento.Datavencimento == null)
+                        cmd.Parameters.Add(new SqlParameter("@datavencimento", System.Data.SqlDbType.Date)).Value = DBNull.Value;
+                    else
+                    cmd.Parameters.Add(new SqlParameter("@datavencimento", System.Data.SqlDbType.Date)).Value = medicamento.Datavencimento;
+
+                    linhasAfetadas = cmd.ExecuteNonQuery();
+                }
+            }
+          
+            return linhasAfetadas == 1;
+               
+        }
+
+
+        public bool Delete(int id)
+        {
+
+            int linhasAfetadas = 0;
+
+            using (this.conn)
+            {
+                this.conn.Open();
+
+                using (this.cmd){
+                    cmd.CommandText = "delete medicamento where id = @id;";
+                    cmd.Parameters.Add(new SqlParameter("@id", System.Data.SqlDbType.Int)).Value = id;
+
+                    linhasAfetadas = cmd.ExecuteNonQuery();
+                }
+            }
+
+           return linhasAfetadas == 1;
+        }
         
     }
 }
