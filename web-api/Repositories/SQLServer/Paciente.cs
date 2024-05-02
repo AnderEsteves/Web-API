@@ -25,7 +25,7 @@ namespace web_api.Repositories.SQLServer
 
                 using (_cmd)
                 {
-                    _cmd.CommandText = "select codigo, nome, datanascimento from paciente;";
+                    _cmd.CommandText = "select codigo, nome, data_nascimento from paciente;";
 
                     using (SqlDataReader dr = _cmd.ExecuteReader())
                     {
@@ -35,7 +35,7 @@ namespace web_api.Repositories.SQLServer
                             {
                                 Codigo = (int)dr["codigo"],
                                 Nome = dr["nome"].ToString(),
-                                DataNascimento = Convert.ToDateTime(dr["datanascimento"])
+                                DataNascimento = Convert.ToDateTime(dr["data_nascimento"])
                             };                         
 
                             pacientes.Add(paciente);

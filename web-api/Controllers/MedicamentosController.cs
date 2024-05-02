@@ -14,7 +14,7 @@ namespace web_api.Controllers
     public class MedicamentosController : ApiController
     {
 
-        private readonly Repositories.SQLServer.Medicamento repoMedicamento; //
+        private readonly Repositories.SQLServer.Medicamento repoMedicamento; 
 
         public MedicamentosController() { 
 
